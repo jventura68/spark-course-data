@@ -45,7 +45,7 @@ def update_global_event_counts(key_value_pairs):
 
     return key_value_pairs.updateStateByKey(update)
 
-def aggregate_by_event_type(record, column='path'):
+def aggregate_by_event_type(record, column='agent'):
     """
     Step 1. Maps every entry to a dictionary.
     Step 2. Transform the dataset in a set of
