@@ -6,7 +6,16 @@ from pyspark.streaming import StreamingContext
 
 import argparse
 
-
+def show (ds, title):
+    def takeAndPrint(time, rdd):
+        print('-------------------------------------------')
+        print("Time: %s" % time, '  -----> ',title)
+        print('-------------------------------------------')
+        if not rdd.isEmpty():
+            for x in rdd.toLocalIterator():
+                print (x)
+    ds.foreachRDD(takeAndPrint)
+    
 def parse_entry(msg):
     """
     Event TCP sends sends data in the format
@@ -52,16 +61,20 @@ def join_aggregation(stream1, stream2):
     key_value_pairs = stream1.map(parse_entry)\
         .map(lambda record: (record['event'], 1))
     running_event_counts = update_global_event_counts(key_value_pairs)
-    running_event_counts.pprint()
+    show(running_event_counts,"Agregado 1")
+    #running_event_counts.pprint()
 
     key_value_pairs2 = stream2.map(parse_entry)\
         .map(lambda record: (record['event'], 1))
     running_event_counts2 = update_global_event_counts(key_value_pairs2)
-    running_event_counts2.pprint()
+    show(running_event_counts2,"Agregado 2")
+    #running_event_counts2.pprint()
 
     n_counts_joined = running_event_counts.leftOuterJoin(running_event_counts2)
-    n_counts_joined.pprint()
-    n_counts_joined.map(aggregate_joined_stream).pprint()
+    show(n_counts_joined,"ag1 join ag2")
+    #n_counts_joined.pprint()
+    show(n_counts_joined.map(aggregate_joined_stream),"Total join")
+    #n_counts_joined.map(aggregate_joined_stream).pprint()
 
 def consume_records(
         interval=1, host='localhost', port1=9876, port2=12345):

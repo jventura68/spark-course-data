@@ -108,7 +108,5 @@ if __name__ == "__main__":
     sc = SparkContext(appName="bookAnalysis")
     sc.setLogLevel("ERROR")
     main()
-
-
-sc.stop()
+    sc.stop()
 

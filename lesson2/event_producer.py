@@ -14,7 +14,7 @@ def get_line():
     random.seed(datetime.utcnow().microsecond)
     dt = datetime.utcnow()\
         .strftime('%Y-%m-%d %H:%M:%S.%f')
-    event = random.choice(['event1', 'event2', 'event3'])
+    event = random.choice(['event1', 'event2', 'event3','event4','event5','event6','event7','event8'])
     return '{};{}\n'.format(dt, event).encode('utf-8')
 
 def randomize_interval(interval):

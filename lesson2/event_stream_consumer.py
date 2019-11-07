@@ -47,6 +47,7 @@ def consume_records(
     """
     spark_context = SparkContext(appName='LogSocketConsumer')
     stream_context = StreamingContext(spark_context, interval)
+    stream_context.checkpoint('/tmp')
     stream = stream_context.socketTextStream(host, port)
 
     # counts number of events
